@@ -1,0 +1,46 @@
+﻿@model PartyInvites.Models.GuestResponse /*The key to a strongly typed view. 
+    A strongly typed view is intended to render a specific domain type. 
+    You can change from regular to strongly typed views, for example, 
+    just by adding or removing the @model directive.*/
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RsvpForm</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    { /*generates an HTML form element configured to post 
+        back to the action method. Because I have not passed any arguments to the 
+        helper method, it assumes I want to post back to the same URL that the HTML
+        document was requested from. The form posts back to the RsvpForm action 
+        method in the Home controller, which just tells MVC to render the view again,
+        essentially just emptying the form.
+        
+        A neat trick is to wrap this in a C# using statement. Normally, when applied 
+        like this, the using statement ensures that an object is disposed of when it
+        goes out of scope. This application of the using keyword is different from the 
+        kind that brings classes in a namespace into scope in a class. Instead of 
+        disposing of an object, the HtmlBeginForm helper closes the HTML form element 
+        when it goes out of scope. This means that the Html.BeginForm helper method 
+        creates both pthe opening and closing parts of a form element. */
+        <p>Your name: @Html.TextBoxFor(x => x.Name)</p> //Lambda expr. works due to strongly typed view.
+        <p>Your email: @Html.TextBoxFor(x => x.Email)</p> //Alternatively @Html.TextBox("Email")
+        <p>Your phone: @Html.TextBoxFor(x => x.Phone)</p>
+        <p>
+            Will you attend?
+            @Html.DropDownListFor(x => x.WillAttend, new[] {
+                new SelectListItem() {Text = "Yes, I'll be there.", Value = bool.TrueString },
+                new SelectListItem() {Text = "No, I can't come", Value = bool.FalseString }
+            }, "Choose an option")
+        </p>
+        <input type="submit" value="Submit RSVP" />
+    }
+</body>
+</html>
