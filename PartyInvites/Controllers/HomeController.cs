@@ -29,9 +29,16 @@ namespace PartyInvites.Controllers
             are used to set the vaules of the properties in an instance of
             the model class, which is then passed to the POST-enabled action
             method).*/
-            
+
             //TODO: Email response to the party organizer.
-            return View("Thanks", guestResponse); //Render a specific view.
+            if (ModelState.IsValid)
+            {
+                return View("Thanks", guestResponse); //Render a specific view.
+            }
+            else {
+                //there's a validation error
+                return View();
+            }
         }
         public ViewResult Books() {
             return View();
