@@ -20,6 +20,24 @@ that the view is strongly typed with.*/
     </style>
 </head>
 <body>
+    @*A better approach would be to display a separate error
+    view when the e-mail message cannot be sent.*@
+    @{
+        try
+        {
+            WebMail.SmtpServer = "smtp.example.com";
+            WebMail.SmtpPort = 587;
+            WebMail.EnableSsl = true;
+            WebMail.UserName = "smtpUsername";
+            WebMail.Password = "smtpPassword";
+            WebMail.From = "rsvp@example.com";
+
+            WebMail.Send("party-host@example.com", "RSVP Notification", Model.Name + " is " + ((Model.WillAttend ?? false) ? "" : "not") + " attending.");
+        }
+        catch (Exception) {
+            @: <b>Sorry - we couldn't send the email to confirm your RSVP.</b>
+        }
+    }
     <div class="text-center">
         <h1>Thank you, @Model.Name!</h1>
         <div class="lead">
